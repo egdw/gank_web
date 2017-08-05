@@ -18,7 +18,7 @@
             integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
             crossorigin="anonymous"></script>
 </head>
-<body class="layui-bg-gray" onload="getData(1,'all')">
+<body class="layui-bg-gray" onload="getData(1,'all',false)">
 <ul class="layui-nav" lay-filter="">
     <li class="layui-nav-item layui-this"><a href="">干货集中营</a></li>
     <li class="layui-nav-item"><a href="">产品</a></li>
@@ -63,41 +63,39 @@
         <center><p>读那些值得读的</p></center>
         <div class="btn-group btn-group-justified" role="group" aria-label="...">
             <div class="btn-group" role="group">
-                <button type="button" class="btn btn-default" onclick="getData(1,'App')">App</button>
+                <button type="button" class="btn btn-default" onclick="getData(1,'App'),false">App</button>
             </div>
             <div class="btn-group" role="group">
-                <button type="button" class="btn btn-default" onclick="getData(1,'Android')">Android</button>
+                <button type="button" class="btn btn-default" onclick="getData(1,'Android',false)">Android</button>
             </div>
             <div class="btn-group" role="group">
-                <button type="button" class="btn btn-default" onclick="getData(1,'iOS')">iOS</button>
+                <button type="button" class="btn btn-default" onclick="getData(1,'iOS',false)">iOS</button>
             </div>
             <div class="btn-group" role="group">
-                <button type="button" class="btn btn-default" onclick="getData(1,'休息视频')">休息视频</button>
+                <button type="button" class="btn btn-default" onclick="getData(1,'休息视频',false)">休息视频</button>
             </div>
         </div>
         <div class="btn-group btn-group-justified" role="group" aria-label="...">
             <div class="btn-group" role="group">
-                <button type="button" class="btn btn-default" onclick="getData(1,'福利')">福利</button>
+                <button type="button" class="btn btn-default" onclick="getData(1,'福利',false)">福利</button>
             </div>
             <div class="btn-group" role="group">
-                <button type="button" class="btn btn-default" onclick="getData(1,'拓展资源')">拓展资源</button>
+                <button type="button" class="btn btn-default" onclick="getData(1,'拓展资源',false)">拓展资源</button>
             </div>
             <div class="btn-group" role="group">
-                <button type="button" class="btn btn-default" onclick="getData(1,'前端')">前端</button>
+                <button type="button" class="btn btn-default" onclick="getData(1,'前端',false)">前端</button>
             </div>
             <div class="btn-group" role="group">
-                <button type="button" class="btn btn-default" onclick="getData(1,'瞎推荐')">瞎推荐</button>
+                <button type="button" class="btn btn-default" onclick="getData(1,'瞎推荐',false)">瞎推荐</button>
             </div>
         </div>
         <div id="main_text">
             <ul class="list-group" id="list_context">
                 <div class="media-left">
-                    <a href="#">
-                        <img class="media-object" src="..." alt="...">
-                    </a>
                 </div>
             </ul>
         </div>
+        <center><div id="pageColl"></div></center>
     </div>
 </div>
 </body>

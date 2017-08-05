@@ -5,11 +5,28 @@ layui.use(['layer', 'laypage', 'element'], function () {
     var layer = layui.layer
         , laypage = layui.laypage
         , element = layui.element();
-    //向世界问个好
+
+    laypage({
+        cont: 'pageColl'
+        ,pages: 200
+        ,group: 3
+        ,curr: location.hash.replace('#!fenye=', '') //获取hash值为fenye的当前页
+        ,hash: 'fenye' //自定义hash值
+        ,jump: function(obj, first){
+            if(!first){
+                // layer.msg('第 '+ obj.curr +' 页');
+                pageChange(obj.curr)
+            }
+        }
+    });
 });
+var pageType = null;
+function pageChange(page) {
+    getData(page,pageType,true);
+}
 
-
-function getData(page, page_type) {
+function getData(page, page_type,scrollTop) {
+    pageType = page_type;
     var web = "http://gank.io/api/data/" + page_type + "/100/" + page;
     console.log(web);
     loadAnimation();
@@ -34,6 +51,11 @@ function getData(page, page_type) {
                 }
             });
             closeAnimation();
+            if(scrollTop== true){
+                $('html, body').animate({
+                    scrollTop: $("#main_body").offset().top
+                }, 500);
+            }
         },
         error: function (xhr, textStatus) {
             console.log('错误')

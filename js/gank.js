@@ -2,8 +2,10 @@
  * Created by hdy on 2017/8/4.
  */
 var laypage = null
+var layer = null;
 layui.use(['layer', 'laypage', 'element', 'flow'], function () {
-    var layer = layui.layer, element = layui.element();
+    layer = layui.layer;
+    var element = layui.element();
     laypage = layui.laypage;
 
     laypage({
@@ -15,7 +17,12 @@ layui.use(['layer', 'laypage', 'element', 'flow'], function () {
         , jump: function (obj, first) {
             if (!first) {
                 // layer.msg('第 '+ obj.curr +' 页');
-                pageChange(obj.curr)
+                console.error("search_open" + search_open)
+                if (search_open) {
+                    changeSearchPage(obj.curr);
+                } else {
+                    pageChange(obj.curr)
+                }
             }
         }
     });
@@ -37,6 +44,7 @@ function getData(page, page_type, scrollTop) {
         timeout: 5000,    //超时时间
         dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
         success: function (data) {
+            search_open = false;
             // console.log(data);
             $("#list_context").html("");
             $("#LAY_demo3").html("");
@@ -65,7 +73,6 @@ function getData(page, page_type, scrollTop) {
                     });
                 });
             }
-            closeAnimation();
             if (scrollTop == true) {
                 $('html, body').animate({
                     scrollTop: $("#main_body").offset().top
@@ -81,7 +88,11 @@ function getData(page, page_type, scrollTop) {
                     , jump: function (obj, first) {
                         if (!first) {
                             // layer.msg('第 '+ obj.curr +' 页');
-                            pageChange(obj.curr)
+                            if (search_open) {
+                                changeSearchPage(obj.curr);
+                            } else {
+                                pageChange(obj.curr)
+                            }
                         }
                     }
                 });
@@ -89,8 +100,10 @@ function getData(page, page_type, scrollTop) {
         },
         error: function (xhr, textStatus) {
             console.log('错误')
+            layer.alert("加载失败,请重试")
         }
     })
+    closeAnimation();
 }
 
 var index = null;
@@ -122,12 +135,20 @@ function loadInfoWebSite(src) {
 
 //存放查询数据
 var searchType = null;
-function search() {
-    if(searchType == null){
+//查询内容
+var searchValue = null;
+//存放查询的数组
+var search_list = null;
+//判断是否是搜索翻页
+var search_open = false;
+function search(page) {
+    if (searchType == null) {
         searchType = 'all';
     }
-    var web = 'http://gank.io/api/search/query/' + $("#search_input").val() + '/category/' + searchType + '/count/20/page/1';
+    searchValue = $("#search_input").val();
+    var web = 'http://gank.io/api/search/query/' + searchValue + '/category/' + searchType + '/count/10/page/' + page;
     console.log(web);
+    loadAnimation();
     $.ajax({
         url: web,
         type: 'GET', //GET
@@ -135,19 +156,21 @@ function search() {
         timeout: 5000,    //超时时间
         dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
         success: function (data) {
+            search_open = true;
             // console.log(data);
             $("#list_context").html("");
             $("#LAY_demo3").html("");
+            search_list = data.results;
             $.each(data.results, function (index, content) {
-                // console.log(content.url.indexOf('github.com'))
-                // $("#LAY_demo3").append(content.readability);
-                $("#list_context").append("<a href='javascript:void(0);' onclick='openSearchWebsite(\"" + content.readability + "\")'>" + "<li class='list-group-item'>" + "<span class='badge'>" + content.who + "</span>" + "[" + (index + 1) + "]&nbsp;&nbsp;" + content.desc + "</li>" + "</a>");
+                $("#list_context").append("<a href='javascript:void(0);' onclick='openSearchWebsite(" + index + ")'><li class='list-group-item'>" + "<span class='badge'>" + content.who + "</span>" + "[" + (index + 1) + "]&nbsp;&nbsp;" + content.desc + "</li>" + "</a>");
             });
         },
         error: function (xhr, textStatus) {
             console.log('错误')
+            layer.alert("加载失败,请重试")
         }
     })
+    closeAnimation();
 }
 
 
@@ -156,10 +179,16 @@ function setSearchType(type) {
 }
 
 function openSearchWebsite(src) {
+    console.error("openSearchWebsite")
     layer.open({
         type: 1,
         skin: 'layui-layer-rim', //加上边框
-        area: ['420px', '240px'], //宽高
-        content: src
+        area: [document.body.clientWidth - 40 + "px", '600px'], //宽高
+        content: "<div class='container'>" + search_list[src].readability + "</div>"
     });
+}
+
+function changeSearchPage(page) {
+    // var web = 'http://gank.io/api/search/query/' + searchValue + '/category/' + searchType + '/count/20/page/' + page;
+    search(page)
 }

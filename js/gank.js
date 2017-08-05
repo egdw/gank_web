@@ -47,8 +47,8 @@ function getData(page, page_type, scrollTop) {
                     //说明是
                     $("#list_context").append("<a href='" + content.url + "' target='_blank'>" + "<li class='list-group-item'>" + "<span class='badge'>" + content.who + "</span>" + "[" + (index + 1) + "]&nbsp;&nbsp;" + content.desc + "</li>" + "</a>");
                 } else if (page_type == '福利') {
-                    if(index == 0){
-                    }else{
+                    if (index == 0) {
+                    } else {
                         $("#LAY_demo3").append("<img class='img-responsive center-block' lay-src='" + content.url + "?imageView2/0/w/300 '> ");
                     }
                 } else {
@@ -57,7 +57,7 @@ function getData(page, page_type, scrollTop) {
                 }
             });
             if (page_type == '福利') {
-                layui.use('flow', function(){
+                layui.use('flow', function () {
                     //按屏加载图片
                     var flow = layui.flow;
                     flow.lazyimg({
@@ -117,5 +117,49 @@ function loadInfoWebSite(src) {
             area: [document.body.clientWidth - 40 + "px", '500px'],
             content: src,
         });
+    });
+}
+
+//存放查询数据
+var searchType = null;
+function search() {
+    if(searchType == null){
+        searchType = 'all';
+    }
+    var web = 'http://gank.io/api/search/query/' + $("#search_input").val() + '/category/' + searchType + '/count/20/page/1';
+    console.log(web);
+    $.ajax({
+        url: web,
+        type: 'GET', //GET
+        async: true,    //或false,是否异步
+        timeout: 5000,    //超时时间
+        dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+        success: function (data) {
+            // console.log(data);
+            $("#list_context").html("");
+            $("#LAY_demo3").html("");
+            $.each(data.results, function (index, content) {
+                // console.log(content.url.indexOf('github.com'))
+                // $("#LAY_demo3").append(content.readability);
+                $("#list_context").append("<a href='javascript:void(0);' onclick='openSearchWebsite(\"" + content.readability + "\")'>" + "<li class='list-group-item'>" + "<span class='badge'>" + content.who + "</span>" + "[" + (index + 1) + "]&nbsp;&nbsp;" + content.desc + "</li>" + "</a>");
+            });
+        },
+        error: function (xhr, textStatus) {
+            console.log('错误')
+        }
+    })
+}
+
+
+function setSearchType(type) {
+    searchText = type;
+}
+
+function openSearchWebsite(src) {
+    layer.open({
+        type: 1,
+        skin: 'layui-layer-rim', //加上边框
+        area: ['420px', '240px'], //宽高
+        content: src
     });
 }

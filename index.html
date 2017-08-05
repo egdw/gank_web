@@ -21,7 +21,6 @@
 <body class="layui-bg-gray" onload="getData(1,'all',false)">
 <ul class="layui-nav" lay-filter="">
     <li class="layui-nav-item layui-this"><a href="">干货集中营</a></li>
-    <li class="layui-nav-item"><a href="">产品</a></li>
     <li class="layui-nav-item">
         <a href="javascript:;">解决方案</a>
         <dl class="layui-nav-child"> <!-- 二级菜单 -->
@@ -40,63 +39,100 @@
 </center>
 
 <div class="container">
-    <div id="search_input" style="float: left" class="visible-md-block visible-lg-block">
-        <div class="layui-form-item">
-            <div class="layui-input-block" style="width: 100px;">
-                <input type="text" style="float: left" name="title" required lay-verify="required" placeholder="搜索干货"
-                       autocomplete="off" class="layui-input">
+    <form class="bs-example bs-example-form" role="form">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="input-group">
+                    <input type="text" required id="search_input" placeholder="搜索干货" class="form-control">
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-default" tabindex="-1" onclick="search()">查询</button>
+                        <button type="button" class="btn btn-default
+                        dropdown-toggle" data-toggle="dropdown" tabindex="-1">
+                            <span class="caret"></span>
+                            <span class="sr-only">切换下拉菜单</span>
+                        </button>
+                        <!--all | Android | iOS | 休息视频 | 福利 | 拓展资源 | 前端 | 瞎推荐 | App-->
+                        <ul class="dropdown-menu pull-right">
+                            <li>
+                                <a href='javascript:void(0);' onclick="setSearchType('all')">all(默认)</a>
+                            </li>
+                            <li>
+                                <a href='javascript:void(0);' onclick="setSearchType('Android')">Android</a>
+                            </li>
+                            <li>
+                                <a href='javascript:void(0);' onclick="setSearchType('iOS')">iOS</a>
+                            </li>
+                            <li>
+                                <a href='javascript:void(0);' onclick="setSearchType('休息视频')">休息视频</a>
+                            </li>
+
+                            <li>
+                                <a href='javascript:void(0);' onclick="setSearchType('福利')">福利</a>
+                            </li>
+
+                            <li>
+                                <a href='javascript:void(0);' onclick="setSearchType('拓展资源')">拓展资源</a>
+                            </li>
+
+                            <li>
+                                <a href='javascript:void(0);' onclick="setSearchType('前端')"></a>
+                            </li>
+
+                            <li>
+                                <a href='javascript:void(0);' onclick="setSearchType('瞎推荐')">瞎推荐</a>
+                            </li>
+                            <li>
+                                <a href='javascript:void(0);' onclick="setSearchType('App')">App</a>
+                            </li>
+                        </ul>
+                    </div><!-- /btn-group -->
+                </div><!-- /input-group -->
             </div>
         </div>
+</div>
+</form>
+<br>
+<div id="main_body" class="" style="background-color: #ffffff;padding-left: 25px;padding-right: 25px">
+    <center><h2 style="padding-top: 60px;">闲读</h2></center>
+    <center><p>读那些值得读的</p></center>
+    <div class="btn-group btn-group-justified" role="group" aria-label="...">
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-default" onclick="getData(1,'App'),false">App</button>
+        </div>
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-default" onclick="getData(1,'Android',false)">Android</button>
+        </div>
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-default" onclick="getData(1,'iOS',false)">iOS</button>
+        </div>
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-default" onclick="getData(1,'休息视频',false)">休息视频</button>
+        </div>
     </div>
-    <div id="list_right" style="float: right" class="visible-md-block visible-lg-block">
-        <ul>
-            <li>阅读</li>
-            <li>订阅到邮箱</li>
-            <li>外包通缉令</li>
-            <li>提交干货</li>
-            <li>RSS订阅</li>
+    <div class="btn-group btn-group-justified" role="group" aria-label="...">
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-default" onclick="getData(1,'福利',false)">福利</button>
+        </div>
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-default" onclick="getData(1,'拓展资源',false)">拓展资源</button>
+        </div>
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-default" onclick="getData(1,'前端',false)">前端</button>
+        </div>
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-default" onclick="getData(1,'瞎推荐',false)">瞎推荐</button>
+        </div>
+    </div>
+    <div id="main_text">
+        <div class='site-demo-flow' id='LAY_demo3'>
+        </div>
+        <ul class="list-group" id="list_context">
         </ul>
     </div>
-    <br>
-    <div id="main_body" class="" style="background-color: #ffffff;padding-left: 25px;padding-right: 25px">
-        <center><h2 style="padding-top: 60px;">闲读</h2></center>
-        <center><p>读那些值得读的</p></center>
-        <div class="btn-group btn-group-justified" role="group" aria-label="...">
-            <div class="btn-group" role="group">
-                <button type="button" class="btn btn-default" onclick="getData(1,'App'),false">App</button>
-            </div>
-            <div class="btn-group" role="group">
-                <button type="button" class="btn btn-default" onclick="getData(1,'Android',false)">Android</button>
-            </div>
-            <div class="btn-group" role="group">
-                <button type="button" class="btn btn-default" onclick="getData(1,'iOS',false)">iOS</button>
-            </div>
-            <div class="btn-group" role="group">
-                <button type="button" class="btn btn-default" onclick="getData(1,'休息视频',false)">休息视频</button>
-            </div>
-        </div>
-        <div class="btn-group btn-group-justified" role="group" aria-label="...">
-            <div class="btn-group" role="group">
-                <button type="button" class="btn btn-default" onclick="getData(1,'福利',false)">福利</button>
-            </div>
-            <div class="btn-group" role="group">
-                <button type="button" class="btn btn-default" onclick="getData(1,'拓展资源',false)">拓展资源</button>
-            </div>
-            <div class="btn-group" role="group">
-                <button type="button" class="btn btn-default" onclick="getData(1,'前端',false)">前端</button>
-            </div>
-            <div class="btn-group" role="group">
-                <button type="button" class="btn btn-default" onclick="getData(1,'瞎推荐',false)">瞎推荐</button>
-            </div>
-        </div>
-        <div id="main_text">
-            <div class='site-demo-flow' id='LAY_demo3'>
-            </div>
-            <ul class="list-group" id="list_context">
-            </ul>
-        </div>
-        <center><div id="pageColl"></div></center>
-    </div>
+    <center>
+        <div id="pageColl"></div>
+    </center>
+</div>
 </div>
 </body>
 <script src="js/gank.js"></script>

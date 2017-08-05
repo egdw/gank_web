@@ -141,7 +141,7 @@ var searchValue = null;
 var search_list = null;
 //判断是否是搜索翻页
 var search_open = false;
-function search(page) {
+function search(page,scrollTop) {
     if (searchType == null) {
         searchType = 'all';
     }
@@ -164,6 +164,30 @@ function search(page) {
             $.each(data.results, function (index, content) {
                 $("#list_context").append("<a href='javascript:void(0);' onclick='openSearchWebsite(" + index + ")'><li class='list-group-item'>" + "<span class='badge'>" + content.who + "</span>" + "[" + (index + 1) + "]&nbsp;&nbsp;" + content.desc + "</li>" + "</a>");
             });
+            if(scrollTop){
+                $('html, body').animate({
+                    scrollTop: $("#list_context").offset().top
+                }, 500);
+            }else{
+                window.location.hash = '#!fenye=1';
+                laypage({
+                    cont: 'pageColl'
+                    , pages: 200
+                    , group: 3
+                    , curr: location.hash.replace('#!fenye=', '') //获取hash值为fenye的当前页
+                    , hash: 'fenye' //自定义hash值
+                    , jump: function (obj, first) {
+                        if (!first) {
+                            // layer.msg('第 '+ obj.curr +' 页');
+                            if (search_open) {
+                                changeSearchPage(obj.curr);
+                            } else {
+                                pageChange(obj.curr)
+                            }
+                        }
+                    }
+                });
+            }
         },
         error: function (xhr, textStatus) {
             console.log('错误')
@@ -190,5 +214,5 @@ function openSearchWebsite(src) {
 
 function changeSearchPage(page) {
     // var web = 'http://gank.io/api/search/query/' + searchValue + '/category/' + searchType + '/count/20/page/' + page;
-    search(page)
+    search(page,true)
 }

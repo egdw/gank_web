@@ -1,19 +1,19 @@
 /**
  * Created by hdy on 2017/8/4.
  */
+var laypage = null
 layui.use(['layer', 'laypage', 'element'], function () {
-    var layer = layui.layer
-        , laypage = layui.laypage
-        , element = layui.element();
+    var layer = layui.layer, element = layui.element();
+    laypage = layui.laypage;
 
     laypage({
         cont: 'pageColl'
-        ,pages: 200
-        ,group: 3
-        ,curr: location.hash.replace('#!fenye=', '') //获取hash值为fenye的当前页
-        ,hash: 'fenye' //自定义hash值
-        ,jump: function(obj, first){
-            if(!first){
+        , pages: 200
+        , group: 3
+        , curr: location.hash.replace('#!fenye=', '') //获取hash值为fenye的当前页
+        , hash: 'fenye' //自定义hash值
+        , jump: function (obj, first) {
+            if (!first) {
                 // layer.msg('第 '+ obj.curr +' 页');
                 pageChange(obj.curr)
             }
@@ -22,10 +22,10 @@ layui.use(['layer', 'laypage', 'element'], function () {
 });
 var pageType = null;
 function pageChange(page) {
-    getData(page,pageType,true);
+    getData(page, pageType, true);
 }
 
-function getData(page, page_type,scrollTop) {
+function getData(page, page_type, scrollTop) {
     pageType = page_type;
     var web = "http://gank.io/api/data/" + page_type + "/100/" + page;
     console.log(web);
@@ -42,7 +42,7 @@ function getData(page, page_type,scrollTop) {
             $.each(data.results, function (index, content) {
                 console.log(content.url.indexOf('github.com'))
                 //判断是否为github的网站:
-                if (content.url.indexOf('github.com') != -1 || content.url.indexOf('jianshu.com')!=-1|| content.url.indexOf('zhihu')!=-1) {
+                if (content.url.indexOf('github.com') != -1 || content.url.indexOf('jianshu.com') != -1 || content.url.indexOf('zhihu') != -1) {
                     //说明是
                     $("#list_context").append("<a href='" + content.url + "' target='_blank'>" + "<li class='list-group-item'>" + "<span class='badge'>" + content.who + "</span>" + "[" + (index + 1) + "]&nbsp;&nbsp;" + content.desc + "</li>" + "</a>");
                 } else {
@@ -51,10 +51,25 @@ function getData(page, page_type,scrollTop) {
                 }
             });
             closeAnimation();
-            if(scrollTop== true){
+            if (scrollTop == true) {
                 $('html, body').animate({
                     scrollTop: $("#main_body").offset().top
                 }, 500);
+            } else {
+                window.location.hash = '#!fenye=1';
+                laypage({
+                    cont: 'pageColl'
+                    , pages: 200
+                    , group: 3
+                    , curr: location.hash.replace('#!fenye=', '') //获取hash值为fenye的当前页
+                    , hash: 'fenye' //自定义hash值
+                    , jump: function (obj, first) {
+                        if (!first) {
+                            // layer.msg('第 '+ obj.curr +' 页');
+                            pageChange(obj.curr)
+                        }
+                    }
+                });
             }
         },
         error: function (xhr, textStatus) {

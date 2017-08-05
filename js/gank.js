@@ -49,7 +49,7 @@ function getData(page, page_type, scrollTop) {
                 } else if (page_type == '福利') {
                     if(index == 0){
                     }else{
-                        $("#LAY_demo3").append("<img lay-src='" + content.url + "' width='300' height='300'> ");
+                        $("#LAY_demo3").append("<img class='img-responsive center-block' lay-src='" + content.url + "?imageView2/0/w/300 '> ");
                     }
                 } else {
                     $("#list_context").append("<a href='javascript:void(0);' onclick='loadInfoWebSite(\"" + content.url + "\")'>" + "<li class='list-group-item'>" + "<span class='badge'>" + content.who + "</span>" + "[" + (index + 1) + "]&nbsp;&nbsp;" + content.desc + "</li>" + "</a>");

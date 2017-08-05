@@ -2,7 +2,7 @@
  * Created by hdy on 2017/8/4.
  */
 var laypage = null
-layui.use(['layer', 'laypage', 'element'], function () {
+layui.use(['layer', 'laypage', 'element', 'flow'], function () {
     var layer = layui.layer, element = layui.element();
     laypage = layui.laypage;
 
@@ -37,19 +37,34 @@ function getData(page, page_type, scrollTop) {
         timeout: 5000,    //超时时间
         dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
         success: function (data) {
-            console.log(data);
+            // console.log(data);
             $("#list_context").html("");
+            $("#LAY_demo3").html("");
             $.each(data.results, function (index, content) {
-                console.log(content.url.indexOf('github.com'))
+                // console.log(content.url.indexOf('github.com'))
                 //判断是否为github的网站:
                 if (content.url.indexOf('github.com') != -1 || content.url.indexOf('jianshu.com') != -1 || content.url.indexOf('zhihu') != -1) {
                     //说明是
                     $("#list_context").append("<a href='" + content.url + "' target='_blank'>" + "<li class='list-group-item'>" + "<span class='badge'>" + content.who + "</span>" + "[" + (index + 1) + "]&nbsp;&nbsp;" + content.desc + "</li>" + "</a>");
+                } else if (page_type == '福利') {
+                    if(index == 0){
+                    }else{
+                        $("#LAY_demo3").append("<img lay-src='" + content.url + "' width='300' height='300'> ");
+                    }
                 } else {
                     $("#list_context").append("<a href='javascript:void(0);' onclick='loadInfoWebSite(\"" + content.url + "\")'>" + "<li class='list-group-item'>" + "<span class='badge'>" + content.who + "</span>" + "[" + (index + 1) + "]&nbsp;&nbsp;" + content.desc + "</li>" + "</a>");
 
                 }
             });
+            if (page_type == '福利') {
+                layui.use('flow', function(){
+                    //按屏加载图片
+                    var flow = layui.flow;
+                    flow.lazyimg({
+                        elem: '#LAY_demo3 img'
+                    });
+                });
+            }
             closeAnimation();
             if (scrollTop == true) {
                 $('html, body').animate({

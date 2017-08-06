@@ -14,20 +14,22 @@
     <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"
             integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
             crossorigin="anonymous"></script>
+    <script src="js/history.js"></script>
     <meta charset="UTF-8">
     <title>历史的车轮滚滚向前</title>
 </head>
-<body class="layui-bg-gray" onload="getData(1,'all',false)">
+<body class="layui-bg-gray" onload="getPublishData()">
 <ul class="layui-nav" lay-filter="">
-    <li class="layui-nav-item layui-this"><a href="">干货集中营</a></li>
-    <li class="layui-nav-item">
-        <a href="javascript:;">解决方案</a>
-        <dl class="layui-nav-child"> <!-- 二级菜单 -->
-            <dd><a href="">移动模块</a></dd>
-            <dd><a href="">后台模版</a></dd>
-            <dd><a href="">电商平台</a></dd>
-        </dl>
-    </li>
+    <li class="layui-nav-item"><a href="index.html">干货集中营</a></li>
+    <li class="layui-nav-item layui-this"><a href="history.html">历史的车轮滚滚向前</a></li>
+    <!--<li class="layui-nav-item">-->
+        <!--<a href="javascript:;">解决方案</a>-->
+        <!--<dl class="layui-nav-child"> &lt;!&ndash; 二级菜单 &ndash;&gt;-->
+            <!--<dd><a href="">移动模块</a></dd>-->
+            <!--<dd><a href="">后台模版</a></dd>-->
+            <!--<dd><a href="">电商平台</a></dd>-->
+        <!--</dl>-->
+    <!--</li>-->
 </ul>
 <center>
     <div id="title_top" class="visible-md-block visible-lg-block">
@@ -36,5 +38,21 @@
         <br>
     </div>
 </center>
+<div class="container">
+    <div id="main_body" class="" style="background-color: #ffffff;padding-left: 25px;padding-right: 25px">
+        <center><h2 style="padding-top: 60px;">历史的车轮滚滚向前</h2></center>
+
+        <div id="main_text">
+            <div class='site-demo-flow' id='LAY_demo3'>
+            </div>
+            <ul class="list-group" id="list_context">
+            </ul>
+            <div id="search_list" class="panel panel-default"></div>
+        </div>
+        <center>
+            <div id="pageColl"></div>
+        </center>
+    </div>
+</div>
 </body>
 </html>
